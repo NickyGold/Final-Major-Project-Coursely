@@ -1,4 +1,4 @@
-<form id="registration" action="emailVerification.php" method="post">
+<form id="registration" action="emailVerification.php" method="post" enctype="multipart/form-data">
     <label for="username-inp"> Please enter a username: (This cannot be changed)</label>
     <input type="text" id = "username-inp" name="username"><br>
     <label for="name-inp">Please enter your screen name:</label>

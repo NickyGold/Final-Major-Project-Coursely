@@ -40,7 +40,7 @@ function imageUpload($targetFolder,$name,$maxByteSize){
           echo "File is not an image.";
           $uploadOk = 0;
       }
-      $a = 10;
+      $a = 1;
       $checkstring = $targetFile;
       if(file_exists($checkstring)){
       while (file_exists($checkstring)){

@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if(session_status() === PHP_SESSION_NONE){
         session_start();
     }
-    $imageUpload("");
+    $filePath = imageUpload("data/tmp/", "profilePicture", 100000000000);
 
     $formData = (object) $_POST;
     $verificationCode = substr(bin2hex(random_bytes(3)), 0, 6);
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="hidden" name="password" value="<?= htmlspecialchars($formData->password) ?>">
         <input type="hidden" name="description" value="<?= htmlspecialchars($formData->description) ?>">
         <input type="hidden" name="verificationCode" value="<?= $verificationCode ?>">
-        <input type="hidden" name="profilePicture" value="<?= $filePath ?>>
+        <input type="hidden" name="profilePicture" value="<?= $filePath ?>">
         <input type="submit" value="verify">
     </form>
 <?php

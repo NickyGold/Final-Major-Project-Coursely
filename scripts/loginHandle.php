@@ -1,4 +1,8 @@
 <?php
+if(session_status() === PHP_SESSION_NONE){
+    session_start();
+    echo "session started";
+}
 include "connDB.php";
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -23,15 +27,14 @@ if ($arg->num_rows >0){
     $arg = $arg->get_result();
     if ($arg->num_rows >0){
         $passwordTable = $arg->fetch_assoc();
-        $passwordhash = password_hash($password, PASSWORD_DEFAULT);
-        echo $passwordhash;
     if (password_verify($password,$passwordTable["EncryptedPassword"]) == true){
         echo "Access granted";
         $_SESSION["Logged_In"] = true;
         $_SESSION["Name"] = $user["ScreenName"];
-        $_SESSION["UserID"] = $user["UserID"];
+        $_SESSION["userID"] = $user["UserID"];
         $_SESSION["Role"] = $user["Role"];
         echo "<br><a style='Color:Red; font-size:200%;'>Welcome " . $user['ScreenName'] . "</a> <br>";
+        echo "<form action='directMessage.php' method='post'> <input type='submit'> </>";
     }
     else {echo "Invalid Username or Password";
     include "login.php";
