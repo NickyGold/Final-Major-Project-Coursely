@@ -22,7 +22,7 @@ if($_GET["recipientID"] == NULL){
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    fetch('directMessagesSend.php', {
+    fetch('scripts/directMessagesSend.php', {
         method:'POST',
         body: formData
     })
@@ -34,7 +34,7 @@ if($_GET["recipientID"] == NULL){
     });
     });
     function loadMessages(){
-        fetch('directMessagesRead.php?recipientID= <?= $recipientID?>')
+        fetch('scripts/directMessagesRead.php?recipientID= <?= $recipientID?>')
         .then(res => res.text())
         .then(data=> {
             document.getElementById('chatMessages').innerHTML = data;

@@ -5,9 +5,8 @@ if(session_status() === PHP_SESSION_NONE){
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $userID = $_SESSION["userID"];
     $recipientID = $_POST["recipientID"];
-    $sql = "INSERT INTO friends (user1, user2, status) VALUES (?,?,?)";
+    $sql = "DELETE FROM friends WHERE (user1 = ? AND user2 = ?) OR (user1 = ? AND user2 = ?)";
     $arg = $conn->prepare($sql);
-    $status = "pending";
-    $arg->bind_param("iis", $userID, $recipientID, $status);
+    $arg->bind_param("iiii", $userID, $recipientID, $recipientID, $userID);
     $arg->execute();
 }

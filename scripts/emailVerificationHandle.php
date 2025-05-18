@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     $formData = (object) $_POST;
     echo $formData->verificationCode . "-" . $formData->code;
     if($formData->verificationCode == $formData->code){
-        $newDir = "data/profilePictures/";
+        $newDir = "scripts/data/profilePictures/";
         $baseName = basename($formData->profilePicture);
         $newPath = $newDir . $baseName;
         $checkstring = $newPath;

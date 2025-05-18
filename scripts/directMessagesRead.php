@@ -1,7 +1,6 @@
 <?php
 if(session_status() === PHP_SESSION_NONE){
     session_start();
-    echo"session started";
 }
 include "connDB.php";
 $senderID = (int) $_SESSION["userID"];
@@ -40,9 +39,9 @@ while ($row = $messages->fetch_assoc()){
     } else {
         $activeUser = $user2;
     }
-    echo "<br><br><br>";
+    echo "<br><br><br><div onclick='showUserPopup(" . $activeUser["UserID"] . ")'>";
     echo "<img src=" . $activeUser["ProfilePicture"] . " style = 'width:50px; height:50px;'>";
-    echo $activeUser["ScreenName"] . "   ----   ";
+    echo $activeUser["ScreenName"] . "</div>   ----   ";
     $encrypted = base64_decode($row["messageText"]);
     $iv = substr($encrypted, 0, 16);
     $encrypted = substr($encrypted, 16);
