@@ -1,5 +1,9 @@
 <?php
-include "connDB.php";
+include "connDB.php"; ?>
+<script>
+    document.addEventListener("DOMContentLoaded", () =>{
+    updateSidebar("dm");})
+</script><?php
 if($_GET["recipientID"] == NULL){
     echo "DM selection coming soon";
     die();
@@ -41,5 +45,5 @@ if($_GET["recipientID"] == NULL){
         })
     }
     loadMessages();
-    setInterval(loadMessages,1000);
+    setInterval(loadMessages,1500);
 </script>

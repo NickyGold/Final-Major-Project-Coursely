@@ -26,24 +26,22 @@ if ($resultFriend->num_rows == 0){
 }
 $user = $result->fetch_assoc();
 ?>
-<div class="userPopup">
-    <h3><?= htmlspecialchars($user["ScreenName"]) ?></h3>
-    <p>@<?= htmlspecialchars($user["Username"]) ?></p>
-    <p><?= htmlspecialchars($user["Description"]) ?></p>
-    <?php if ($userID == $selfID){ echo "This is You!";}else{ if ($friendStatus === "NULL"){
-    echo "<button onclick='sendFriendRequest($userID)'>Send Friend Request</button>";}
-    else{
-        if ($friendStatus["status"] == "pending" && $friendStatus["user1"] == $selfID){
-            echo"Friend Request Pending";
-        }
-        if ($friendStatus["status"] == "pending" && $friendStatus["user2"] == $selfID){
-            echo "<button onclick='acceptFriendRequest($userID)'>Accept Friend Request</button>";
-            echo "<button onclick='declineFriendRequest($userID)'>Decline Friend Request</button>";
-        }
-        if ($friendStatus["status"] == "accepted"){
-            echo"Friends!";
-        }
+<h3><?= htmlspecialchars($user["ScreenName"]) ?></h3>
+<p>@<?= htmlspecialchars($user["Username"]) ?></p>
+<p><?= htmlspecialchars($user["Description"]) ?></p>
+<?php if ($userID == $selfID){ echo "This is You!";}else{ if ($friendStatus === "NULL"){
+echo "<button onclick='sendFriendRequest($userID)'>Send Friend Request</button>";}
+else{
+    if ($friendStatus["status"] == "pending" && $friendStatus["user1"] == $selfID){
+        echo"Friend Request Pending";
     }
-    echo "<button onclick='startDirectMessage($userID)'>Direct Message </button>";}?>
-    <br><button onclick="closeUserPopup()">Close</button>
-</div>
+    if ($friendStatus["status"] == "pending" && $friendStatus["user2"] == $selfID){
+        echo "<button onclick='acceptFriendRequest($userID)'>Accept Friend Request</button>";
+        echo "<button onclick='declineFriendRequest($userID)'>Decline Friend Request</button>";
+    }
+    if ($friendStatus["status"] == "accepted"){
+        echo"Friends!";
+    }
+}
+echo "<button onclick='startDirectMessage($userID)'>Direct Message </button>";}?>
+<br><button onclick="closeUserPopup()">Close</button>
