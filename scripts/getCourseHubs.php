@@ -7,7 +7,7 @@ $arg = $conn->prepare($sql);
 $param = "%$search%";
 $arg->bind_param("s", $param);
 $arg->execute();
-$results = $arg->get_result();
+$result = $arg->get_result();
 $courses = [];
 while ($row = $result->fetch_assoc()){
     $courses[] = $row;

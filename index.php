@@ -63,13 +63,13 @@ if(session_status() === PHP_SESSION_NONE){
     function startDirectMessage(recipientID){
         window.location.href = "index.php?script=scripts/directMessages.php&recipientID=" + recipientID;
     }
-    async function updateSidebar(context){
+    async function updateSidebar(context, courseID = ""){
         const sidebar = document.getElementById("sidebar");
         sidebar.innerHTML = "LOADING...";
+        if (context == "dm"){
         const res = await fetch(`scripts/getSidebar.php?context=${context}`);
         const users = await res.json();
         sidebar.innerHTML = "";
-        if (context == "dm"){
         users.forEach(user => {
             const div = document.createElement("div");
             div.className = "sidebarItem";
@@ -81,14 +81,111 @@ if(session_status() === PHP_SESSION_NONE){
             name.textContent = user.username;
             div.appendChild(img);
             div.appendChild(name);
-            div.addEventListener("click", () => {
-                startDirectMessage(user.UserID);
-            });
+            div.onclick = () => startDirectMessage(user.UserID);
             sidebar.appendChild(div);
         })}
+        if (context=="course"){
+            const res = await fetch(`scripts/getChannels.php?courseID=${courseID}`);
+            const channels = await res.json();
+            sidebar.innerHTML = "";
+            channels.forEach(channel => {
+                const div = document.createElement("div");
+                div.className = "sidebarItem";
+                div.textContent = channel.channelName;
+                div.onclick = () => {
+                                    loadChannelMessages(channel.channelID);
+                                    loadMessageInput(channel.channelID);
+                                };
+                sidebar.appendChild(div);
+            })
+        }
     }
-    async function loadChannels(courseID){
-        const res = await fetch(`scripts/getChannels.php?courseID=${courseID}`)
+    async function loadCourseHubs(search = '') {
+        const res = await fetch(`scripts/getCourseHubs.php?search=${encodeURIComponent(search)}`);
+        const hubs = await res.json();
+        const container = document.getElementById("courseHubList");
+        container.innerHTML = "";
+        hubs.forEach(hub => {
+            const div = document.createElement("div");
+            div.className = "hubItem";
+            div.innerHTML = `
+            <h3>${hub.courseName}</h3>
+            <p>${hub.courseDescription}</p>
+            <button onclick="joinCourse(${hub.courseID})">Join</button>`;
+        container.appendChild(div);
+        });
     }
+function joinCourse(courseID) {
+    const formData = new FormData();
+    formData.append("courseID", courseID);
+    fetch("scripts/joinCourseHub.php", {
+        method: "POST",
+        body: formData
+    }).then(res => res.text())
+    .then(data => {
+        alert("Joined hub!")
+        window.location.href = "index.php?script=scripts/courseChannels.php&courseID=" + courseID;
+    });
+}
+async function loadChannelMessages(channelID) {
+    const res = await fetch(`scripts/getMessages.php?channelID=${channelID}`);
+    const messages = await res.json();
+    const messageArea = document.getElementById("messageArea");
+    messageArea.innerHTML = "";
+    messages.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = "messageContainer";
+        const img = document.createElement("img");
+        img.src = msg.ProfilePicture;
+        img.alt = msg.ScreenName;
+        img.className = "messageUserAvatar";
+        img.onclick = () => {
+            showUserPopup(msg.UserID);
+        }
+        const name = document.createElement("span");
+        name.className = "messageUserName";
+        name.textContent = msg.ScreenName;
+        const message = document.createElement("span");
+        message.className = "message";
+        message.textContent = msg.message;
+        div.appendChild(img);
+        div.appendChild(name);
+        div.appendChild(message);
+        messageArea.appendChild(div);
+    })
+}
+async function loadMessageInput(channelID) {
+    const div = document.getElementById('messageInput');
+    div.innerHTML = "";
+    const form = document.createElement("form");
+    form.id = "chatInput";
+    form.method = "POST";
+    const hiddeninp = document.createElement("input");
+    hiddeninp.type = "hidden";
+    hiddeninp.name = "channelID";
+    hiddeninp.value = channelID;
+    form.appendChild(hiddeninp);
+    const messageinp = document.createElement("input");
+    messageinp.type = "text";
+    messageinp.name = "messageInp";
+    form.appendChild(messageinp);
+    const button = document.createElement("button");
+    button.type = "submit";
+    button.textContent = "Submit";
+    form.appendChild(button);
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch("scripts/sendMessages.php", {
+            method: "POST",
+            body: formData
+        }).then(res => res.text())
+        .then(data=> {console.log("Debug: ", data);
+        messageinp.value = "";
+        loadChannelMessages(channelID);
+    })
+    });
+    div.appendChild(form);
+}
 </script>
 </html>

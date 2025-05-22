@@ -3,7 +3,6 @@ include "connDB.php";
 if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
-$recipientID = (int) $_POST["recipientID"];
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $senderID = $_SESSION["userID"];
     $recipientID = $_POST["recipientID"];
