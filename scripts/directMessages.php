@@ -13,12 +13,14 @@ if($_GET["recipientID"] == NULL){
     $arg->execute();
     $recipient = $arg->get_result()->fetch_assoc();
 ?>
+<div id='DM'>
 <form id="chatForm">
     <input type="hidden" name="recipientID" value=<?= $recipientID ?>>
-    <textarea type="message" name = "messageInp" id="messageInp" placeholder='Message @<?=$recipient["ScreenName"]?>'></textarea>
-    <button type="submit">Send</button>
+    <input required type="text" name = "messageInp" id="messageInp" placeholder='Message @<?=$recipient["Username"]?>'>
+    <button class = 'DMButton' type="submit"><img src="scripts/data/siteData/Send-Button.svg" class = 'sendButton'></button>
 </form>
-<div id="chatMessages"></div><?php } ?>
+<div id="chatMessages"></div>
+</div><?php } ?>
 <script>
     document.getElementById('chatForm').addEventListener('submit', function(e){
     e.preventDefault();
@@ -43,5 +45,6 @@ if($_GET["recipientID"] == NULL){
         })
     }
     loadMessages();
-    setInterval(loadMessages,1500);
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 </script>

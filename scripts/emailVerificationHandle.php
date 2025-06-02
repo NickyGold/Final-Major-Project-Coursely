@@ -49,9 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
         );
         if($arg->execute()){
             echo "account made";
-            $_SESSION["loggedIn"] = true;
+            $_SESSION["Logged_In"] = true;
             $_SESSION["userID"] = $conn->insert_id;
             $_SESSION["Name"] = $name;
+            $_SESSION["Role"] = $role;
             header("Location = index.php");
         }
     }

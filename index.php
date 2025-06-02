@@ -1,17 +1,31 @@
 <?php
 if(session_status() === PHP_SESSION_NONE){
     session_start();
-}?>
+}
+if($_SESSION["Logged_In"] == false){
+    include "scripts/login.php";
+    exit;
+} else{
+?><div id="content"><?php include $_GET["script"];?> </div><?php } ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Coursely</title>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href ="scripts/css/styles.css">
 <body>
-    <?php include $_GET["script"];?>
 <div id= "userPopup"class="userPopup"></div>
-<div id = "sidebar">
+<div id = "sidebar"></div>
+<div id = "courseHomeAndDMArea">
+    <div id = "homeAndDMArea">
+        <a href="index.php?script=scripts/home.php" class="courseSidebarHome"><img style = "height:100%; width:100%; object-fit:contain;" src = "scripts\data\siteData\Home.svg"></a>
+        <a href="index.php?script=scripts/directMessages.php" class = "courseSidebarDM"> <img style = "height:100%; width:100%;object-fit:contain;" src = "scripts\data\siteData\DMs.svg"></a>
+    </div>
+    <div id = "courseArea"></div>
+    <div id="signOutArea">
+        <a href="index.php?script=scripts/signOutHandle.php" class="courseSidebarSignOut"><img style = " height:95%; margin-left:5px; object-fit:contain;" src = "scripts\data\siteData\Log-Out.svg"></a>
+    </div>
 </div>
 
 </body>
@@ -187,5 +201,27 @@ async function loadMessageInput(channelID) {
     });
     div.appendChild(form);
 }
+async function loadJoinedCourses(){
+    const res = await fetch("scripts/getJoinedCourses.php");
+    const courses = await res.json();
+    const courseArea = document.getElementById("courseArea");
+    courses.forEach(course => {
+        const div = document.createElement("div");
+        div.onclick = () => {
+            window.location.href = "index.php?script=scripts/courseChannels.php&courseID=" + course.courseID;
+        }
+        div.className = "courseSidebarItem";
+        const courseName = document.createElement("span");
+        courseName.textContent = course.courseName;
+        courseName.className = "courseSidebarName";
+        const courseDesc = document.createElement("span");
+        courseDesc.textContent = course.courseDescription;
+        courseDesc.className = "courseSidebarDesc";
+        div.appendChild(courseName);
+        div.appendChild(courseDesc);
+        courseArea.appendChild(div);
+    });
+}
+loadJoinedCourses();
 </script>
 </html>

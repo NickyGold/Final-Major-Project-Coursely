@@ -27,24 +27,24 @@ $user2 = $arg->get_result()->fetch_assoc();
 $sql = "SELECT * FROM directmessages WHERE
         (senderID = ? AND recipientID = ?) OR
         (senderID = ? AND recipientID = ?) ORDER BY
-        dateTime ASC";
+        dateTime DESC";
 $arg = $conn->prepare($sql);
 $arg->bind_param("iiii" , $senderID, $recipientID, $recipientID, $senderID);
 $arg->execute();
 $messages = $arg->get_result();
 $cipher = "AES-256-CBC";
 while ($row = $messages->fetch_assoc()){
+    echo '<div class="message">';
     if ($row["senderID"] == $user1["UserID"]){
         $activeUser = $user1;
     } else {
         $activeUser = $user2;
     }
-    echo "<br><br><br><div onclick='showUserPopup(" . $activeUser["UserID"] . ")'>";
-    echo "<img src=" . $activeUser["ProfilePicture"] . " style = 'width:50px; height:50px;'>";
-    echo $activeUser["ScreenName"] . "</div>   ----   ";
+    echo "<img onclick='showUserPopup(" . $activeUser["UserID"] . ")' src=" . $activeUser["ProfilePicture"] . " class='DMUserPFP'>";
+    echo "<div onclick='showUserPopup(" . $activeUser["UserID"] . ")' class='DMUsername'>" . $activeUser["ScreenName"] . "</div>";
     $encrypted = base64_decode($row["messageText"]);
     $iv = substr($encrypted, 0, 16);
     $encrypted = substr($encrypted, 16);
     $decrypted = openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
-    echo $decrypted;
+    echo "<div class='DMMessage'>" . $decrypted . "</div></div>";
 }

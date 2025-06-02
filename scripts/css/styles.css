@@ -1,13 +1,210 @@
+body {
+  display: grid;
+  background-color: #1F0E21;
+  grid-template-columns: 1fr 1fr 3fr;
+  grid-template-areas: "courseHomeAndDMArea sidebar content";
+  margin:0px;
+  height: 100vh;
+}
+#courseHomeAndDMArea {
+  grid-area: courseHomeAndDMArea;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 100%;
+  grid-template-rows: 10% 82% 8%;
+  grid-template-areas: "homeandDMArea" "courseArea" "signOutArea";
+  border-right: 2px solid #581982;
+}
+#homeAndDMArea {
+  grid-area: homeandDMArea;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 100%;
+  grid-template-areas: "courseSidebarHome courseSidebarDM";
+}
+#courseArea {
+  grid-area: courseArea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.courseSidebarItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+  height: 10%;
+  background-color: #581261;
+  width: 90%;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5%;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+  -ms-border-radius: 5%;
+  -o-border-radius: 5%;
+}
+.courseSidebarName {
+  font-size: larger;
+  font-family: Inter;
+  color: #fff;
+}
+.courseSidebarDesc {
+  font-size: small;
+  font-style: italic;
+  font-family: Inter;
+  color: #fff;
+}
+.courseSidebarItem:hover {
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+}
+#signOutArea {
+  grid-area: signOutArea;
+}
+#sidebar {
+  grid-area: sidebar;
+  border-right: 2px solid #581982;
+}
+#content {
+  grid-area: content;
+}
+.DMUser {
+  height: 100%;
+  width: 100%;
+}
+.message {
+  height: 10vh;
+  display: grid;
+  grid-template-columns: 10% 90%;
+  grid-template-rows: 50% 50%;
+  grid-template-areas: "DMUserPFP DMUsername" "DMUserPFP DMMessage";
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+.DMMessage{
+  grid-area: DMMessage;
+  font-family: Inter;
+  color: #fff;
+}
+.DMUserPFP{
+height: 80%;
+align-self: center;
+justify-self: center;
+aspect-ratio: 1 / 1;
+border-radius: 50%;
+grid-area: DMUserPFP;
+-webkit-border-radius: 50%;
+-moz-border-radius: 50%;
+-ms-border-radius: 50%;
+-o-border-radius: 50%;
+}
+.DMUsername {
+align-content: center;
+height:100%;
+width:100%;
+cursor: pointer;
+grid-area: DMUsername;
+color: #8f4ec4;
+font-size: large;
+font-family: Inter;
+}
+.DMUsername:hover {
+  text-decoration: underline;
+}
+.sendButton {
+  height: 100%;
+}
+#DM {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 95% 5%;
+  grid-template-areas: "chatMessages"
+                       "chatForm";
+}
+.courseSidebarHome {
+  margin: 5px;
+  grid-area: courseSidebarHome;
+}
+.courseSidebarHome:hover {
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+}
+.courseSidebarDM {
+  grid-area: courseSidebarDM;
+  margin: 5px;
+}
+.courseSidebarDM:hover {
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+}
+.courseSidebarSignOut {
+  height: 100%;
+  width: 100%;
+    display:flex;
+    align-content: center;
+    align-items: center;
+}
+.courseSidebarSignOut:hover {
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+}
+#chatMessages {
+  grid-area: chatMessages;
+  height: 100%;
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column-reverse;
+}
+#chatForm {
+  grid-area: chatForm;
+  display: flex;
+  flex-direction: row;
+  height: 95%;
+  width: 98%;
+  align-content: center;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+}
+form {
+  margin: 0;
+}
+#messageInp {
+height: 95%;
+width: 95%;
+margin-right: 1%;
+}
+.DMButton {
+  all: unset;
+  height: 100%;
+  object-fit: contain;
+  justify-self: center;
+  cursor: pointer;
+}
+.DMButton:hover {
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+}
 .sidebarItem {
   display: flex;
   align-items: center;
   padding: 8px 12px;
   cursor: pointer;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #581982;
   transition: background-color 0.2s ease;
+  -webkit-transition: background-color 0.2s ease;
+  -moz-transition: background-color 0.2s ease;
+  -ms-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
 }
 .sidebarItem:hover {
-  background-color: #f0f0f0;
+  background-color: #4e1c6e;
 }
 .sidebarAvatar {
   width: 32px;
@@ -18,7 +215,8 @@
 }
 .sidebarItem span {
   font-size: 14px;
-  color: #333;
+  font-family: Inter;
+  color: #fff;
   user-select: none;
 }
 .userPopup {
