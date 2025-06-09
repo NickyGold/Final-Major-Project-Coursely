@@ -2,6 +2,7 @@ body {
   display: grid;
   background-color: #1F0E21;
   grid-template-columns: 1fr 1fr 3fr;
+  grid-template-rows: 1fr;
   grid-template-areas: "courseHomeAndDMArea sidebar content";
   margin:0px;
   height: 100vh;
@@ -36,7 +37,7 @@ body {
   flex-direction: column;
   justify-content: center;
   padding-left: 5%;
-  height: 10%;
+  height: 15%;
   background-color: #581261;
   width: 90%;
   cursor: pointer;
@@ -103,7 +104,7 @@ grid-area: DMUserPFP;
 -ms-border-radius: 50%;
 -o-border-radius: 50%;
 }
-.DMUsername {
+.DMUserName, .DMUsername {
 align-content: center;
 height:100%;
 width:100%;
@@ -119,7 +120,39 @@ font-family: Inter;
 .sendButton {
   height: 100%;
 }
-#DM {
+.hubItem {
+  height: 100%;
+  flex: 0 0 33%;
+  justify-content: center;
+  align-content: center;
+  border-right: solid 2px #581261;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.hubItem h3 {
+  height: 30%;
+  vertical-align: middle;
+}
+.hubItem p {
+  height: 40%
+}
+.hubItem button {
+  all: unset;
+  height: 30%;
+}
+.hubItem button img {
+  height:70%;
+}
+#spacingContainer {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 100%;
+  grid-template-rows: 50% 50%;
+  grid-template-areas: "courseHubContainer" "accountContainer";
+}
+#DM, #courseMessages {
   height: 100vh;
   width: 100%;
   display: grid;
@@ -176,9 +209,22 @@ form {
   margin: 0;
 }
 #messageInp {
-height: 95%;
-width: 95%;
-margin-right: 1%;
+  all: unset;
+  height: 95%;
+  width: 95%;
+  margin-right: 1%;
+  border-radius: 1%;
+  -webkit-border-radius: 1%;
+  -moz-border-radius: 1%;
+  -ms-border-radius: 1%;
+  -o-border-radius: 1%;
+  background-color: #826A8D;
+  padding-left: 5px;
+  font-family: Inter;
+}
+#messageInp::placeholder {
+  font-family: Inter;
+  color: #2e2e2e;
 }
 .DMButton {
   all: unset;
@@ -191,6 +237,92 @@ margin-right: 1%;
   filter: brightness(1.5);
   -webkit-filter: brightness(1.5);
 }
+#courseHubContainer {
+  grid-area: courseHubContainer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  justify-self: center;
+  width : 95%;
+  height: 90%;
+  background-color: #461467;
+  color: #fff;
+  font-family: Inter;
+  border-radius: 5%;
+}
+#courseHubContainer h1 {
+  margin-bottom: 1%;
+  font-size: 3em;
+}
+#courseHubContainer p {
+  margin-top: 1%;
+}
+#courseSearchForm {
+  height: 20%;
+  width: 95%;
+  display: flex;
+}
+#courseSearchForm input {
+  height: 100%;
+  width: 100%;
+  font-family: Inter;
+  font-size: larger;
+}
+#courseSearchForm input::placeholder {
+  font-family: Inter;
+}
+#courseSearchForm button {
+  all: unset;
+  margin-left: 1%;
+  height: 100%;
+  width: fit-content;
+  cursor: pointer;
+}
+#courseSearchForm button:hover {
+  filter: brightness(1.5);}
+#accountContainer {
+  grid-area: accountContainer;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  width : 95%;
+  height: 90%;
+  overflow-x: auto;
+  background-color: #461467;
+  font-family: Inter;
+  border-radius: 5%;
+}
+#accountContainer #helloHome {
+  align-self: center;
+  justify-self: center;
+  margin-left: 15%;
+  display: flex;
+  flex-direction: row;
+}
+.accountHome {
+  margin-right: 5%;
+  margin-left: 5%;
+  font-size: 2.5em;
+  color: #fff;
+  justify-self: center;
+  align-self: center;
+}
+#homePFP {
+  width: 25%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
 .sidebarItem {
   display: flex;
   align-items: center;
@@ -202,6 +334,8 @@ margin-right: 1%;
   -moz-transition: background-color 0.2s ease;
   -ms-transition: background-color 0.2s ease;
   -o-transition: background-color 0.2s ease;
+  font-family: Inter;
+  color: #fff;
 }
 .sidebarItem:hover {
   background-color: #4e1c6e;
@@ -212,6 +346,10 @@ margin-right: 1%;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
 }
 .sidebarItem span {
   font-size: 14px;
@@ -241,4 +379,129 @@ margin-right: 1%;
   max-width: 500px;
   width: 90%;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+#logIncontainer, #registrationContainer, #emailVerificationContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background: rgba(0, 0, 0, 0);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#logIncontainer form, #registrationContainer form, #emailVerificationContainer form {
+  background: #4e1c6e;
+  padding: 20px;
+  width: 40%;
+  min-height: 60%;
+  height: fit-content;
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-family: Inter;
+  text-align: center;
+  gap: 20px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+#logIncontainer form input, #registrationContainer form input[type="text"], #registrationContainer form input[type="email"], #registrationContainer form input[type="password"], #emailVerificationContainer form input[type="text"] {
+  font-family: Inter;
+  all: unset;
+  min-height: 40px;
+  height: 5%;
+  width: 100%;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  background-color: #826A8D;
+  border: solid 1px #fff;
+}
+#logIncontainer form input:focus {
+  outline: none;
+  border-color: #924ab1;
+}
+#logIncontainer form label {
+  text-align: center;
+}
+#logIncontainer form input::placeholder {
+  font-family: Inter;
+  color: #2e2e2e;
+}
+#registerCTA {
+  align-self: center;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  height: 20%;
+  width: 100%;
+}
+#registerCTAButton {
+  all: unset;
+  height: 50%;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+  background-color: #924ab1;
+  width: 20%;
+  cursor: pointer;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin-top: 5px;
+}
+#loginButton, #registration input[type="submit"], #emailVerificationContainer form input[type="submit"] {
+  all: unset;
+  justify-self: center;
+  align-self: center;
+  background-color: #924ab1;
+  height: 5%;
+  min-height: 25px;
+  width: 50%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+#registerCTAButton a {
+  all: unset;
+}
+#loginButton:hover {
+  filter: brightness(1.2);
+  -webkit-filter: brightness(1.2);
+}
+#registerCTAButton:hover {
+  filter: brightness(1.2);
+  -webkit-filter: brightness(1.2);
+}
+#pfp-label {
+  display: inline-block;
+  padding: 10px 20px;
+  width: 40%;
+  justify-self: center;
+  align-self: center;
+  background-color:#924ab1;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  cursor: pointer;
+}
+#pfp-label:hover {
+  filter: brightness(1.2);
+  -webkit-filter: brightness(1.2);
+}
+#registration input[type = 'submit']:hover {
+  filter: brightness(1.2);
+  -webkit-filter: brightness(1.2);
 }

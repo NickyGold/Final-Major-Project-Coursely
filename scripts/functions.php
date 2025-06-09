@@ -18,7 +18,6 @@ function email($recipient, $recipientName, $subject, $body){
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->send();
-        echo 'Email sent successfully.';
     } catch (Exception $e){
         echo 'Mailer Error: ' . $mail->ErrorInfo;
     }
@@ -33,11 +32,8 @@ function imageUpload($targetFolder,$name,$maxByteSize){
       $allowedMIMEExtensions = ["image/png","image/jpeg","image/gif"];
       $check = getimagesize($_FILES[$name]["tmp_name"]);
       if ($check !== false){
-          echo "File is an image - " . $check["mime"] . ".";
           $uploadOk = 1;
-          echo $targetFile;
       } else{
-          echo "File is not an image.";
           $uploadOk = 0;
       }
       $a = 1;
@@ -65,7 +61,6 @@ function imageUpload($targetFolder,$name,$maxByteSize){
           $targetFile = "NULL";
         } else {
           if (move_uploaded_file($_FILES[$name]["tmp_name"], $targetFile)) {
-            echo "The file ". htmlspecialchars( basename( $_FILES[$name]["name"])). " has been uploaded.";
           } else {
             echo "There was an error uploading your file.";
             $targetFile = "NULL";

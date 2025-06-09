@@ -1,12 +1,8 @@
 <?php
 if(session_status() === PHP_SESSION_NONE){
     session_start();
-}
-if($_SESSION["Logged_In"] == false){
-    include "scripts/login.php";
-    exit;
-} else{
-?><div id="content"><?php include $_GET["script"];?> </div><?php } ?>
+}?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +11,13 @@ if($_SESSION["Logged_In"] == false){
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href ="scripts/css/styles.css">
 <body>
+<?php if($_SESSION["Logged_In"] == false && $_GET["script"] != "scripts/registrationform.php" && $_GET["script"] != "scripts/loginHandle.php" && $_GET["script"] != "scripts/emailVerification.php"){
+    include "scripts/login.php";
+    exit;
+} else{
+?><div id="content"><?php include $_GET["script"];?> </div><?php if ($_GET["script"] == "scripts/registrationform.php" || $_GET["script"] == "scripts/loginHandle.php" || $_GET["script"] == "scripts/emailVerification.php" || $_GET["script"] == "scripts/emailVerificationHandle.php") {
+    exit;
+} } ?>
 <div id= "userPopup"class="userPopup"></div>
 <div id = "sidebar"></div>
 <div id = "courseHomeAndDMArea">
@@ -105,7 +108,7 @@ if($_SESSION["Logged_In"] == false){
             channels.forEach(channel => {
                 const div = document.createElement("div");
                 div.className = "sidebarItem";
-                div.textContent = channel.channelName;
+                div.textContent = "#" + channel.channelName;
                 div.onclick = () => {
                                     loadChannelMessages(channel.channelID);
                                     loadMessageInput(channel.channelID);
@@ -117,7 +120,7 @@ if($_SESSION["Logged_In"] == false){
     async function loadCourseHubs(search = '') {
         const res = await fetch(`scripts/getCourseHubs.php?search=${encodeURIComponent(search)}`);
         const hubs = await res.json();
-        const container = document.getElementById("courseHubList");
+        const container = document.getElementById("accountContainer");
         container.innerHTML = "";
         hubs.forEach(hub => {
             const div = document.createElement("div");
@@ -125,7 +128,7 @@ if($_SESSION["Logged_In"] == false){
             div.innerHTML = `
             <h3>${hub.courseName}</h3>
             <p>${hub.courseDescription}</p>
-            <button onclick="joinCourse(${hub.courseID})">Join</button>`;
+            <button onclick="joinCourse(${hub.courseID})"><img src="scripts/data/siteData/joinButton.svg"></button>`;
         container.appendChild(div);
         });
     }
@@ -144,23 +147,23 @@ function joinCourse(courseID) {
 async function loadChannelMessages(channelID) {
     const res = await fetch(`scripts/getMessages.php?channelID=${channelID}`);
     const messages = await res.json();
-    const messageArea = document.getElementById("messageArea");
+    const messageArea = document.getElementById("chatMessages");
     messageArea.innerHTML = "";
     messages.forEach(msg => {
         const div = document.createElement("div");
-        div.className = "messageContainer";
+        div.className = "message";
         const img = document.createElement("img");
         img.src = msg.ProfilePicture;
         img.alt = msg.ScreenName;
-        img.className = "messageUserAvatar";
+        img.className = "DMUserPFP";
         img.onclick = () => {
             showUserPopup(msg.UserID);
         }
         const name = document.createElement("span");
-        name.className = "messageUserName";
+        name.className = "DMUserName";
         name.textContent = msg.ScreenName;
         const message = document.createElement("span");
-        message.className = "message";
+        message.className = "DMMessage";
         message.textContent = msg.message;
         div.appendChild(img);
         div.appendChild(name);
@@ -169,10 +172,8 @@ async function loadChannelMessages(channelID) {
     })
 }
 async function loadMessageInput(channelID) {
-    const div = document.getElementById('messageInput');
-    div.innerHTML = "";
-    const form = document.createElement("form");
-    form.id = "chatInput";
+    const form = document.getElementById('chatForm');
+    form.innerHTML = "";
     form.method = "POST";
     const hiddeninp = document.createElement("input");
     hiddeninp.type = "hidden";
@@ -182,10 +183,18 @@ async function loadMessageInput(channelID) {
     const messageinp = document.createElement("input");
     messageinp.type = "text";
     messageinp.name = "messageInp";
+    messageinp.id = "messageInp";
+    const res = await fetch(`scripts/getChannelInfo.php?channelID=${channelID}`);
+    const channel = await res.json();
+    messageinp.placeholder = "Message #" + channel.channelName;
     form.appendChild(messageinp);
     const button = document.createElement("button");
     button.type = "submit";
-    button.textContent = "Submit";
+    const img = document.createElement("img");
+    img.src = "scripts/data/siteData/Send-Button.svg";
+    img.className = "sendButton";
+    button.appendChild(img);
+    button.className = "DMButton";
     form.appendChild(button);
     form.addEventListener("submit", function(e) {
         e.preventDefault();
@@ -199,7 +208,6 @@ async function loadMessageInput(channelID) {
         loadChannelMessages(channelID);
     })
     });
-    div.appendChild(form);
 }
 async function loadJoinedCourses(){
     const res = await fetch("scripts/getJoinedCourses.php");

@@ -11,7 +11,7 @@ $sql = "SELECT  channelmessages.message,
                 users.ScreenName,
                 users.ProfilePicture
         FROM channelmessages INNER JOIN users ON channelmessages.userID = users.UserID
-        WHERE channelmessages.channelID = ? ORDER BY timestamp ASC";
+        WHERE channelmessages.channelID = ? ORDER BY timestamp DESC";
 $arg = $conn->prepare($sql);
 $arg->bind_param("i", $channelID);
 $arg->execute();

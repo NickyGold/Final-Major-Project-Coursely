@@ -53,7 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
             $_SESSION["userID"] = $conn->insert_id;
             $_SESSION["Name"] = $name;
             $_SESSION["Role"] = $role;
-            header("Location = index.php");
+            header("Location = index.php?script=scripts/home.php");
+            die();
         }
     }
     else{

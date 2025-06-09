@@ -4,18 +4,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if(session_status() === PHP_SESSION_NONE){
         session_start();
     }
-    $filePath = imageUpload("data/tmp/", "profilePicture", 100000000000);
-
+    $filePath = imageUpload("scripts/data/tmp/", "profilePicture", 100000000000);
     $formData = (object) $_POST;
     $verificationCode = substr(bin2hex(random_bytes(3)), 0, 6);
-    echo $verificationCode;
     email(
         $formData->email,
         $formData->name,
         "Coursely verification code",
         "Hi " . $formData->name . " your verification code is " . $verificationCode);
-    ?>
-    <form action = "emailVerificationHandle.php" method = "post">
+?>
+<div id="emailVerificationContainer">
+    <form action = "index.php?script=scripts/emailVerificationHandle.php" method = "post">
         <label for="code"> An email was sent to you with a verification code please input it, </label>
         <input type = "text" name="code" id="code" required><br>
         <input type="hidden" name="username" value="<?= htmlspecialchars($formData->username) ?>">
@@ -27,5 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="hidden" name="profilePicture" value="<?= $filePath ?>">
         <input type="submit" value="verify">
     </form>
+</div>
 <?php
-}
+} ?>

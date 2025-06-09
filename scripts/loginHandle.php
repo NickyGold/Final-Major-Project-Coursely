@@ -33,8 +33,8 @@ if ($arg->num_rows >0){
         $_SESSION["Name"] = $user["ScreenName"];
         $_SESSION["userID"] = $user["UserID"];
         $_SESSION["Role"] = $user["Role"];
-        echo "<br><a style='Color:Red; font-size:200%;'>Welcome " . $user['ScreenName'] . "</a> <br>";
-        echo "<form action='directMessage.php' method='post'> <input type='submit'> </>";
+        header("Location: index.php?script=scripts/home.php");
+        die();
     }
     else {echo "Invalid Username or Password";
     include "login.php";
